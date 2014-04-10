@@ -11,6 +11,14 @@ h1 {
 	font-size: 40px;
 }
 
+.submit {
+	margin-top: 2em;
+	font-size: 16px;
+	padding: 1em 3em;
+	background: #BADA55;
+	color: #000;
+}
+
 .wrapper {
 	width: 1080px;
 	margin: 0 auto;
@@ -22,6 +30,9 @@ h1 {
 	margin-right: 5px;
 	height: 200px;
 	border: 2px solid #ccc;
+}
+.card:hover {
+	border-color: #e2e2e2;
 }
 
 .selected {
@@ -40,36 +51,23 @@ h1 {
 	-webkit-mask-repeat: no-repeat;
 	-webkit-mask-position: 15px;
 }
-
-.green {
-	background: #BADA55;
-	border-color: #BADA55;
-}
-.red {
-	background: #F53333;
-	border-color: #F53333;
-}
-.purple {
-	background: #610BA1;
-	border-color: #610BA1;
-}
-
 .diamond {
 	-webkit-mask-image: url('../images/diamond.png');
 }
-
 .wave {
    -webkit-mask-image: url('../images/wave.png');
 }
-
 .oval {
 	-webkit-mask-image: url('../images/oval.png');
 }
 
-.empty {
-	color: black;
+.green {
+	background: #BADA55;
+}
+.red {
+	background: #F53333;;
+}
+.purple {
+	background: #610BA1;
 }
 
-.shaded {
-	border: 1px solid #999;
-}

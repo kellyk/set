@@ -154,7 +154,6 @@ var Game = {
 	},
 
 	submitSet: function() {
-		this.clearSelections();
 		var self = this;
 		var ids = $.map(self.selected, function(el) { return $(el).data("id");});
 
@@ -178,15 +177,16 @@ var Game = {
 				self.displayCards(self.cards);
 			}
 		});
-
+		
+		this.clearSelections();
 	},
 
 	clearCards: function(ids) {
+		// remove submitted cards game's card array and clear the board
 		var self = this;
 		this.selected = [];
 		this.board.empty();
 		var cardIds = $.map(self.cards, function(card) { return card.id; });
-		
 		$.each(ids, function(idx, id) {
 			var location = cardIds.indexOf(id);
 			if (location > -1) {
