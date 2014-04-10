@@ -12,5 +12,5 @@ A set is defined by any three cards which have completely unique or completely i
  - Shape
  - Quantity
 
-For example, all of the following rows form a set:
+For example, each of the following rows form a valid set:
 ![Example sets](/images/set-examples.jpg)

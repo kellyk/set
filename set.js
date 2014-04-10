@@ -51,6 +51,13 @@ var Game = {
 	setCardListeners: function() {
 		var self = this;
 
+		// trigger submit when enter button key is pressed
+		$(document).keypress(function(e) {
+			if (e.which == 13 && !self.submitButton.prop('disabled')) {
+				self.submitButton.click();
+			}
+		});
+
 		// what happens when a card is clicked:
 		this.board.on('click', '.card', function(e) {
 			e.stopImmediatePropagation();
@@ -110,6 +117,7 @@ var Game = {
 			$(el).removeClass('selected');
 		});
 		this.selected = [];
+		this.submitButton.prop('disabled', true);
 	},
 
 	validateSet: function() {
@@ -146,7 +154,7 @@ var Game = {
 	},
 
 	submitSet: function() {
-		// todo
+		this.clearSelections();
 		var self = this;
 		var ids = $.map(self.selected, function(el) { return $(el).data("id");});
 
@@ -189,10 +197,7 @@ var Game = {
 	},
 
 	updateCards: function(newCards) {
-		console.log(newCards);
-		console.log(this.cards);
 		this.cards = this.cards.concat(newCards);
-		console.log(this.cards);
 		this.displayCards(this.cards);
 	},
 
