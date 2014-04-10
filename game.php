@@ -11,7 +11,8 @@ class Game {
 
 	public function start() {
 
-		$this->deck->deal();
+		// call the deck's deal function and return the cards dealt
+		return $this->deck->deal();
 
 	}
 }

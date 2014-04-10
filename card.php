@@ -1,12 +1,11 @@
 <?php
 
-include_once "cardAttributes.php";
-
 class Card {
-	private $shape;
-	private $color;
-	private $fill;
-	private $number;
+	public $shape;
+	public $color;
+	public $fill;
+	public $number;
+	public $id;
 
 	public function __construct(CardAttributes $attributes, Deck $deck) {
 		

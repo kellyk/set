@@ -2,6 +2,7 @@
 
 include_once "cardAttributes.php";
 include_once "card.php";
+include_once "functions.php";
 
 class Deck {
 
@@ -18,12 +19,15 @@ class Deck {
 		$fills = array('filled', 'shaded', 'empty');
 		$numbers = array(1, 2, 3);
 
+		$index = 1;
+
 		foreach ($colors as $color) {
 			foreach ($shapes as $shape) {
 				foreach ($fills as $fill) {
 					foreach ($numbers as $number) {
-						$cardAttributes = new CardAttributes($color, $shape, $fill, $number);
+						$cardAttributes = new CardAttributes($color, $shape, $fill, $number, $index);
 						$card = new Card($cardAttributes, $this);
+						$index++;
 					}
 				}
 			}
@@ -33,19 +37,24 @@ class Deck {
 	}
 
 	public function removeSet($cards) {
-
+		
 	}
 
-	public function shuffle() {
+	private function shuffle() {
 		shuffle($this->cards);
 	}
 
 	public function deal() {
-		echo "Dealing...";
+		// shuffle the deck
+		$this->shuffle();
+
+		// remove 12 cards from the top and return them
+		$dealtCards = array_chop($this->cards, 12);
+		return $dealtCards;
 	}
 
 	public function threeMore() {
-
+		return array_chop($this->cards, 3);
 	}
 
 }

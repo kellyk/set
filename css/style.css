@@ -1,0 +1,75 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	text-align: center;
+}
+
+h1 {
+	font-size: 40px;
+}
+
+.wrapper {
+	width: 1080px;
+	margin: 0 auto;
+}
+
+.card {
+	display: inline-block;
+	width: 245px;
+	margin-right: 5px;
+	height: 200px;
+	border: 2px solid #ccc;
+}
+
+.selected {
+	background: #eee;
+}
+
+.game-board {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.shape {
+	display: inline-block;
+	width: 70px;
+	height: 200px;
+	-webkit-mask-repeat: no-repeat;
+	-webkit-mask-position: 15px;
+}
+
+.green {
+	background: #BADA55;
+	border-color: #BADA55;
+}
+.red {
+	background: #F53333;
+	border-color: #F53333;
+}
+.purple {
+	background: #610BA1;
+	border-color: #610BA1;
+}
+
+.diamond {
+	-webkit-mask-image: url('../images/diamond.png');
+}
+
+.wave {
+   -webkit-mask-image: url('../images/wave.png');
+}
+
+.oval {
+	-webkit-mask-image: url('../images/oval.png');
+}
+
+.empty {
+	color: black;
+}
+
+.shaded {
+	border: 1px solid #999;
+}
