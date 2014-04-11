@@ -70,6 +70,10 @@ var Game = {
 				self.selectCard(e.currentTarget);
 			}
 
+			if (self.selected.length === 3) {
+				self.silentSubmission();
+			}
+
 			// when a card is selected or deselected, toggle the submit button
 			self.toggleSubmitButton();
 		});
@@ -142,6 +146,13 @@ var Game = {
 
 	displayError: function(error) {
 		alert(error);
+	},
+
+	silentSubmission: function() {
+		var response = this.validateSet();
+		if (response.validated) {
+			this.submitSet();
+		}
 	},
 
 	attemptSubmission: function() {
