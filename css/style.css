@@ -19,6 +19,11 @@ h1 {
 	color: #000;
 }
 
+.submit:disabled {
+	background: #C5DA83;
+	color: #666;
+}
+
 .wrapper {
 	width: 1080px;
 	margin: 0 auto;

@@ -2,9 +2,9 @@ var Game = {
 	cards: [],
 	selected: [],
 	score: 0,
-	board: $('[data-display="game-board"]'),
+	$board: $('[data-display="game-board"]'),
+	$score: $('[data-display="score"]'),
 	submitButton: $('[data-action="submit"]'),
-
 	deal: function() {
 		var self = this;
 
@@ -14,18 +14,18 @@ var Game = {
 			type: 'GET',
 			dataType: 'json',
 			success: function(data) {
-				self.displayCards.call(self, data);
+				self.cards = data;
+				self.displayCards.call(self);
 				self.setCardListeners();
 				self.setPageListeners();
 			}
 		});
 	},
 
-	displayCards: function(cards) {
+	displayCards: function() {
 		var self = this;
-		this.cards = cards;
 
-		$.each(cards, function(index, card){
+		$.each(this.cards, function(index, card){
 			var cardNode = $('<div>');
 			cardNode.addClass('card');
 			$(cardNode).data('id', card.id);
@@ -39,11 +39,11 @@ var Game = {
 			for (var i = 0; i < card.number; i++) {
 				cardNode.append(shapeNode.clone());
 			}
-			self.board.append(cardNode);
+			self.$board.append(cardNode);
 
 			// display 4 cards per row
 			if ((index+1) % 4 === 0) {
-				self.board.append($('<div>'));
+				self.$board.append($('<div>'));
 			}
 		});
 	},
@@ -59,7 +59,7 @@ var Game = {
 		});
 
 		// what happens when a card is clicked:
-		this.board.on('click', '.card', function(e) {
+		this.$board.on('click', '.card', function(e) {
 			e.stopImmediatePropagation();
 
 			// if card is new, add it, otherwise remove it
@@ -166,7 +166,7 @@ var Game = {
 				self.clearCards(ids);
 				if (!data.gameComplete) {
 					self.updateCards(data);
-					// self.updateScore(data.score);
+					self.increaseScore();
 				} else {
 					self.gameWon();
 				}
@@ -174,10 +174,10 @@ var Game = {
 			error: function() {
 				console.log(arguments);
 				self.clearCards(ids);
-				self.displayCards(self.cards);
+				self.displayCards();
 			}
 		});
-		
+
 		this.clearSelections();
 	},
 
@@ -185,7 +185,7 @@ var Game = {
 		// remove submitted cards game's card array and clear the board
 		var self = this;
 		this.selected = [];
-		this.board.empty();
+		this.$board.empty();
 		var cardIds = $.map(self.cards, function(card) { return card.id; });
 		$.each(ids, function(idx, id) {
 			var location = cardIds.indexOf(id);
@@ -198,11 +198,11 @@ var Game = {
 
 	updateCards: function(newCards) {
 		this.cards = this.cards.concat(newCards);
-		this.displayCards(this.cards);
+		this.displayCards();
 	},
 
-	updateScore: function(score) {
-		//todo
+	increaseScore: function() {
+		this.$score.html(++this.score);
 	},
 
 	startRound: function() {
