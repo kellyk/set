@@ -4,6 +4,7 @@ var Game = {
 	score: 0,
 	$board: $('[data-display="game-board"]'),
 	$score: $('[data-display="score"]'),
+	
 	deal: function() {
 		var self = this;
 
@@ -27,10 +28,12 @@ var Game = {
 		$.each(this.cards, function(index, card){
 			var cardNode = $('<div>');
 			cardNode.addClass('card');
-			$(cardNode).data('id', card.id);
-			$(cardNode).data('shape', card.shape);
-			$(cardNode).data('color', card.color);
-			$(cardNode).data('number', card.number);
+			$(cardNode).data({
+				'id': card.id,
+				'shape': card.shape,
+				'color': card.color,
+				'number': card.number
+			});
 
 			var shapeNode = $('<span>');
 			shapeNode.addClass('shape ' + card.color + ' ' + card.shape + ' ' + card.fill);
@@ -53,13 +56,14 @@ var Game = {
 		// what happens when a card is clicked:
 		this.$board.on('click', '.card', function(e) {
 			e.stopImmediatePropagation();
+			var card = e.currentTarget;
 
 			// if card is new, add it, otherwise remove it
 			var ids = $.map(self.selected, function(el) { return $(el).data("id");});
-			if (ids.indexOf($(e.currentTarget).data('id')) >= 0) {
-				self.deselectCard(e.currentTarget);
+			if (ids.indexOf($(card).data('id')) >= 0) {
+				self.deselectCard(card);
 			} else {
-				self.selectCard(e.currentTarget);
+				self.selectCard(card);
 			}
 
 			if (self.selected.length === 3) {
@@ -98,8 +102,8 @@ var Game = {
 	},
 
 	clearSelections: function() {
-		$.each(this.selected, function(index, el) {
-			$(el).removeClass('selected');
+		$.each(this.selected, function(index, card) {
+			$(card).removeClass('selected');
 		});
 		this.selected = [];
 	},
@@ -111,11 +115,7 @@ var Game = {
 		var shapes = $.map(self.selected, function(el) { return $(el).data("shape"); });
 		var numbers = $.map(self.selected, function(el) { return $(el).data("number"); });
 
-		if (self.isSet(colors) && self.isSet(shapes) && self.isSet(numbers)) {
-			return { validated: true, message: 'success'};
-		} else {
-			return { validated: false, message: 'Oops! That is not a set!' };
-		}
+		return (self.isSet(colors) && self.isSet(shapes) && self.isSet(numbers));
 	},
 
 	isSet: function(arr) {
@@ -125,8 +125,8 @@ var Game = {
 	},
 
 	silentSubmission: function() {
-		var response = this.validateSet();
-		if (response.validated) {
+		var valid = this.validateSet();
+		if (valid) {
 			this.submitSet();
 		}
 	},
@@ -142,6 +142,7 @@ var Game = {
 			dataType: 'json',
 			success: function(data) {
 				self.clearCards(ids);
+				// to do - implement game complete check on server
 				if (!data.gameComplete) {
 					self.updateCards(data);
 					self.increaseScore();
@@ -151,8 +152,6 @@ var Game = {
 			},
 			error: function() {
 				console.log(arguments);
-				self.clearCards(ids);
-				self.displayCards();
 			}
 		});
 
@@ -197,6 +196,5 @@ var Game = {
 	}
 
 };
-
 
 $(document).ready(Game.deal());
