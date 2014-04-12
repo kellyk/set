@@ -1,7 +1,7 @@
 Set
 ===
 
-Set card game in PHP and JavaScript
+Set card game in PHP and JavaScript. Demo available at [http://kellyking.me/projects/set](#http://kellyking.me/projects/set)
 
 ## How to Play
 Click three cards to form a set, and then click submit. Continue until you run out of cards!

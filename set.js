@@ -4,7 +4,6 @@ var Game = {
 	score: 0,
 	$board: $('[data-display="game-board"]'),
 	$score: $('[data-display="score"]'),
-	submitButton: $('[data-action="submit"]'),
 	deal: function() {
 		var self = this;
 
@@ -51,13 +50,6 @@ var Game = {
 	setCardListeners: function() {
 		var self = this;
 
-		// trigger submit when enter button key is pressed
-		$(document).keypress(function(e) {
-			if (e.which == 13 && !self.submitButton.prop('disabled')) {
-				self.submitButton.click();
-			}
-		});
-
 		// what happens when a card is clicked:
 		this.$board.on('click', '.card', function(e) {
 			e.stopImmediatePropagation();
@@ -73,27 +65,16 @@ var Game = {
 			if (self.selected.length === 3) {
 				self.silentSubmission();
 			}
-
-			// when a card is selected or deselected, toggle the submit button
-			self.toggleSubmitButton();
 		});
 	},
 
 	setPageListeners: function() {
 		var self = this;
 
-		this.submitButton.on('click', function() {
-			self.attemptSubmission.call(self);
-		});
-
 		// if the user clicks on the page outside the game board, clear selected
 		$(document).on('click', function() {
 			self.clearSelections.call(self);
 		});
-	},
-
-	toggleSubmitButton: function() {
-		this.submitButton.prop('disabled', (this.selected.length !== 3));
 	},
 
 	selectCard: function(card) {
@@ -121,7 +102,6 @@ var Game = {
 			$(el).removeClass('selected');
 		});
 		this.selected = [];
-		this.submitButton.prop('disabled', true);
 	},
 
 	validateSet: function() {
@@ -144,23 +124,10 @@ var Game = {
 		return (reduced.length === 1 || reduced.length === 3);
 	},
 
-	displayError: function(error) {
-		alert(error);
-	},
-
 	silentSubmission: function() {
 		var response = this.validateSet();
 		if (response.validated) {
 			this.submitSet();
-		}
-	},
-
-	attemptSubmission: function() {
-		var response = this.validateSet();
-		if (response.validated) {
-			this.submitSet();
-		} else {
-			this.displayError(response.message);
 		}
 	},
 
